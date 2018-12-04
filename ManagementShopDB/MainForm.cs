@@ -14,7 +14,7 @@ namespace ManagementShopDB
     public partial class MainForm : Form
     {
         private const string connectionStr = @"Data Source=DESKTOP-CHJ1K79\SQLEXPRESS;Initial Catalog=ShopDB;Integrated Security=True";
-        private const int SHIFT_OF_CONTROLS = 50;
+        private const int SHIFT_OF_CONTROLS = 50;        
 
         public MainForm()
         {
@@ -23,6 +23,15 @@ namespace ManagementShopDB
             CustomizeComboBoxAccessoryTypes();
             CustomizeComboBoxAccessoryProducer();
             CustomizeGridViews();
+            CustomizeGridViewsOfDeleteData();
+        }
+
+        private void CustomizeGridViewsOfDeleteData()
+        {
+            DataGridViewCheckBoxColumn gridViewCheckBoxColumn = new DataGridViewCheckBoxColumn();
+            dataGridViewOfClientsOnDeleteClientsPage.Columns.Insert(0, gridViewCheckBoxColumn);
+            gridViewCheckBoxColumn = new DataGridViewCheckBoxColumn();
+            dataGridViewOfAccessOnDeleteAccessPage.Columns.Insert(0, gridViewCheckBoxColumn);
         }
 
         private void CustomizeGridViews()
@@ -115,6 +124,12 @@ namespace ManagementShopDB
                 case "tabPageOfInsert":
                     tabControlOfInsertingDb_SelectedIndexChanged(new object(), new EventArgs());
                     break;
+                case "tabPageOfUpdate":
+                    tabControlOfUpdate_SelectedIndexChanged(new object(), new EventArgs());
+                    break;
+                case "tabPageOfDelete":
+                    tabControlOfDelete_SelectedIndexChanged(new object(), new EventArgs());
+                    break;
             }
 
         }
@@ -158,7 +173,15 @@ namespace ManagementShopDB
             using (SqlConnection sqlConnection = new SqlConnection(connectionStr))
             {
                 sqlConnection.Open();
-                insertClient(sqlConnection, textBoxOfFNameClientOnInsertClientPage.Text, textBoxOfLNameClientOnInsertClientPage.Text, textBoxOfPhoneClientOnInsertClientPage.Text);
+                try
+                {
+                    insertClient(sqlConnection, textBoxOfFNameClientOnInsertClientPage.Text, textBoxOfLNameClientOnInsertClientPage.Text, textBoxOfPhoneClientOnInsertClientPage.Text);
+                }
+                catch(Exception)
+                {
+                    MessageBox.Show("Клиент с таким номером уже существует.");
+                    return;
+                }
             }
             MessageBox.Show("Клиент успешно добавлен.");
             //update table of data gridview clients
@@ -176,6 +199,44 @@ namespace ManagementShopDB
             returnParameter.Direction = ParameterDirection.ReturnValue;
             sqlCommandInsertClient.ExecuteNonQuery();
             return (int)returnParameter.Value;
+        }
+
+        private void updateClient(SqlConnection sqlConnection, int Id, string FnameClient, string LnameClient, string Phone)
+        {
+            SqlCommand sqlCommandInsertClient = new SqlCommand("UpdateClient", sqlConnection);
+            sqlCommandInsertClient.CommandType = CommandType.StoredProcedure;
+            sqlCommandInsertClient.Parameters.Add(new SqlParameter("@ClientId", Id));
+            sqlCommandInsertClient.Parameters.Add(new SqlParameter("@FName", FnameClient));
+            sqlCommandInsertClient.Parameters.Add(new SqlParameter("@LName", LnameClient));
+            sqlCommandInsertClient.Parameters.Add(new SqlParameter("@Phone", Phone));            
+            sqlCommandInsertClient.ExecuteNonQuery();            
+        }
+
+        private void updateAccessory(SqlConnection sqlConnection, int Id, string AccessName, string Color, string TypeOfLink)
+        {
+            SqlCommand sqlCommandInsertClient = new SqlCommand("UpdateAccessory", sqlConnection);
+            sqlCommandInsertClient.CommandType = CommandType.StoredProcedure;
+            sqlCommandInsertClient.Parameters.Add(new SqlParameter("@AccessId", Id));
+            sqlCommandInsertClient.Parameters.Add(new SqlParameter("@AccessName", AccessName));
+            sqlCommandInsertClient.Parameters.Add(new SqlParameter("@Color", Color));
+            sqlCommandInsertClient.Parameters.Add(new SqlParameter("@TypeOfLink", TypeOfLink));
+            sqlCommandInsertClient.ExecuteNonQuery();
+        }
+
+        private void deleteAccessory(SqlConnection sqlConnection, int Id)
+        {
+            SqlCommand sqlCommandInsertClient = new SqlCommand("DeleteAccessory", sqlConnection);
+            sqlCommandInsertClient.CommandType = CommandType.StoredProcedure;
+            sqlCommandInsertClient.Parameters.Add(new SqlParameter("@AccessId", Id));
+            sqlCommandInsertClient.ExecuteNonQuery();
+        }
+
+        private void deleteClient(SqlConnection sqlConnection, int Id)
+        {
+            SqlCommand sqlCommandInsertClient = new SqlCommand("DeleteClient", sqlConnection);
+            sqlCommandInsertClient.CommandType = CommandType.StoredProcedure;
+            sqlCommandInsertClient.Parameters.Add(new SqlParameter("@ClientId", Id));
+            sqlCommandInsertClient.ExecuteNonQuery();
         }
 
         private void insertGoods(SqlConnection sqlConnection, int idOrder, int idAccessory, int countAccessory)
@@ -304,10 +365,10 @@ namespace ManagementShopDB
                             (int)row.Cells[row.Cells.Count - 1].Value);
                         }
                     }
-                    catch (Exception) { }                  
+                    catch (Exception) { }                
                     
                 }
-
+                MessageBox.Show("Заказ успешно оформлен.");
             }
 
         }
@@ -325,6 +386,246 @@ namespace ManagementShopDB
         private void groupBoxOfDataDelivery_Move(object sender, EventArgs e)
         {
             btnDoOrder.Top = groupBoxOfDataDelivery.Bottom + SHIFT_OF_CONTROLS;
+        }
+
+        private void tabControlOfUpdate_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (tabControlOfUpdate.SelectedTab.Name)
+            {
+                case "tabPageOfUpdateClient":
+                    //fill clients
+                    using (SqlConnection sqlConnection = new SqlConnection(connectionStr))
+                    {
+                        sqlConnection.Open();                        
+                        SqlCommand sqlCommand = new SqlCommand(SqlScripts.SELECT_CLIENTS);
+                        sqlCommand.Connection = sqlConnection;                        
+                        DataTable dataTable = new DataTable();
+                        //add checkbox field for update rows
+                        dataTable.Columns.Add(new DataColumn("Обновить данную строку", typeof(bool)));                        
+                        dataTable.Load(sqlCommand.ExecuteReader());
+                        dataGridViewOfClientsOnUpdateClientPage.DataSource = dataTable;
+                    }
+                    dataGridViewOfClientsOnUpdateClientPage.ReadOnly = false;
+                    foreach (DataGridViewColumn col in dataGridViewOfClientsOnUpdateClientPage.Columns)
+                    {
+                        col.ReadOnly = true;
+                    }
+                    dataGridViewOfClientsOnUpdateClientPage.RowHeadersVisible = false;
+                    AutoResizeGridView(dataGridViewOfClientsOnUpdateClientPage);
+                    break;
+                case "tabPageOfUpdateAccessory":
+                    //fill accessories
+                    using (SqlConnection sqlConnection = new SqlConnection(connectionStr))
+                    {
+                        sqlConnection.Open();
+                        SqlCommand sqlCommand = new SqlCommand(SqlScripts.SELECT_ACCESSORIES);
+                        sqlCommand.Connection = sqlConnection;
+                        DataTable dataTable = new DataTable();
+                        //add checkbox field for update rows
+                        dataTable.Columns.Add(new DataColumn("Обновить данную строку", typeof(bool)));
+                        dataTable.Load(sqlCommand.ExecuteReader());
+                        dataGridViewOfAccessoriesOnUpdateAccessoryPage.DataSource = dataTable;
+                    }
+                    dataGridViewOfAccessoriesOnUpdateAccessoryPage.ReadOnly = false;
+                    foreach (DataGridViewColumn col in dataGridViewOfAccessoriesOnUpdateAccessoryPage.Columns)
+                    {
+                        col.ReadOnly = true;
+                    }
+                    dataGridViewOfAccessoriesOnUpdateAccessoryPage.RowHeadersVisible = false;
+                    AutoResizeGridView(dataGridViewOfAccessoriesOnUpdateAccessoryPage);
+                    break;
+            }
+        }
+
+        private void dataGridViewOfClientsOnUpdateClientPage_Resize(object sender, EventArgs e)
+        {
+            btnUpdatesClients.Top = dataGridViewOfClientsOnUpdateClientPage.Bottom + 20;
+        }
+
+        private void dataGridViewOfClientsOnUpdateClientPage_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            //switch on check box of updating
+            if(e.ColumnIndex == 0)
+            {                
+                dataGridViewOfClientsOnUpdateClientPage.Rows[e.RowIndex].Cells[0].Value = true;
+                //cell of fname
+                dataGridViewOfClientsOnUpdateClientPage.Rows[e.RowIndex].Cells[2].ReadOnly = false;
+                //cell of lname
+                dataGridViewOfClientsOnUpdateClientPage.Rows[e.RowIndex].Cells[3].ReadOnly = false;
+                //cell of phone
+                dataGridViewOfClientsOnUpdateClientPage.Rows[e.RowIndex].Cells[4].ReadOnly = false;
+            }
+        }
+
+        private void btnUpdatesClients_Click(object sender, EventArgs e)
+        {
+            using (SqlConnection sqlConnection = new SqlConnection(connectionStr))
+            {
+                sqlConnection.Open();
+                foreach (DataGridViewRow row in dataGridViewOfClientsOnUpdateClientPage.Rows)
+                {
+                    try
+                    {
+                        bool isUpdatedRow = (bool)row.Cells[0].Value;
+                        if (isUpdatedRow)
+                        {
+                            updateClient(sqlConnection, (int)row.Cells[1].Value,
+                                (string)row.Cells[2].Value, (string)row.Cells[3].Value,
+                                (string)row.Cells[4].Value);
+                        }
+                    } catch (Exception) { }
+                }
+                MessageBox.Show("Данные о пользователях успешно обновлены");
+                tabControlOfUpdate_SelectedIndexChanged(new object(), new EventArgs());
+            }
+        }
+
+        private void dataGridViewOfAccessoriesOnUpdateAccessoryPage_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            //switch on check box of updating
+            if (e.ColumnIndex == 0)
+            {
+                dataGridViewOfAccessoriesOnUpdateAccessoryPage.Rows[e.RowIndex].Cells[0].Value = true;
+                //cell of name
+                dataGridViewOfAccessoriesOnUpdateAccessoryPage.Rows[e.RowIndex].Cells[3].ReadOnly = false;
+                //cell of color
+                dataGridViewOfAccessoriesOnUpdateAccessoryPage.Rows[e.RowIndex].Cells[4].ReadOnly = false;
+                //cell of type of link
+                dataGridViewOfAccessoriesOnUpdateAccessoryPage.Rows[e.RowIndex].Cells[5].ReadOnly = false;
+            }
+        }
+
+        private void dataGridViewOfAccessoriesOnUpdateAccessoryPage_Resize(object sender, EventArgs e)
+        {
+            btnUpdateAccessories.Top = dataGridViewOfAccessoriesOnUpdateAccessoryPage.Bottom + 50;
+        }
+
+        private void btnUpdateAccessories_Click(object sender, EventArgs e)
+        {
+            using (SqlConnection sqlConnection = new SqlConnection(connectionStr))
+            {
+                sqlConnection.Open();
+                foreach (DataGridViewRow row in dataGridViewOfAccessoriesOnUpdateAccessoryPage.Rows)
+                {
+                    try
+                    {
+                        bool isUpdatedRow = (bool)row.Cells[0].Value;
+                        if (isUpdatedRow)
+                        {
+                            updateAccessory(sqlConnection, (int)row.Cells[1].Value,
+                                (string)row.Cells[3].Value, (string)row.Cells[4].Value,
+                                (string)row.Cells[5].Value);
+                        }
+                    }
+                    catch (Exception) { }
+                }
+                MessageBox.Show("Данные о аксессуарах успешно обновлены");
+                tabControlOfUpdate_SelectedIndexChanged(new object(), new EventArgs());
+            }
+        }
+
+        private void tabControlOfDelete_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (tabControlOfDelete.SelectedTab.Name)
+            {
+                case "tabPageOfDeleteClients":
+                    {
+                        using (SqlConnection sqlConnection = new SqlConnection(connectionStr))
+                        {
+                            sqlConnection.Open();
+                            //fill clients
+                            FillGridViewOfTableFromDb(sqlConnection, new SqlCommand(SqlScripts.SELECT_CLIENTS), dataGridViewOfClientsOnDeleteClientsPage);
+                        }
+                        dataGridViewOfClientsOnDeleteClientsPage.RowHeadersVisible = false;
+                        dataGridViewOfClientsOnDeleteClientsPage.ReadOnly = false;
+                        foreach (DataGridViewColumn column in dataGridViewOfClientsOnDeleteClientsPage.Columns)
+                        {
+                            column.ReadOnly = true;
+                        }
+                        dataGridViewOfClientsOnDeleteClientsPage.Columns[0].ReadOnly = false;                        
+                        //(new DataColumn("Удалить данную строку", typeof(bool)));
+                        AutoResizeGridView(dataGridViewOfClientsOnDeleteClientsPage);
+                    }                   
+                    break;
+                case "tabPageOfDeleteAccessories":
+                    {
+                        using (SqlConnection sqlConnection = new SqlConnection(connectionStr))
+                        {
+                            sqlConnection.Open();
+                            //fill clients
+                            FillGridViewOfTableFromDb(sqlConnection,
+                                new SqlCommand(SqlScripts.SELECT_ACCESSORIES),
+                                dataGridViewOfAccessOnDeleteAccessPage);
+                        }
+                        dataGridViewOfAccessOnDeleteAccessPage.RowHeadersVisible = false;
+                        dataGridViewOfAccessOnDeleteAccessPage.ReadOnly = false;
+                        foreach (DataGridViewColumn column in dataGridViewOfAccessOnDeleteAccessPage.Columns)
+                        {
+                            column.ReadOnly = true;
+                        }
+                        dataGridViewOfAccessOnDeleteAccessPage.Columns[0].ReadOnly = false;                        
+                        //(new DataColumn("Удалить данную строку", typeof(bool)));
+                        AutoResizeGridView(dataGridViewOfAccessOnDeleteAccessPage);
+                    }                   
+                    break;                   
+            }
+        }
+
+        private void btnDeleteClients_Click(object sender, EventArgs e)
+        {
+            using (SqlConnection sqlConnection = new SqlConnection(connectionStr))
+            {
+                sqlConnection.Open();
+                bool isDeletedRow = false;
+                foreach (DataGridViewRow row in dataGridViewOfClientsOnDeleteClientsPage.Rows)
+                {
+                    try
+                    {
+                        isDeletedRow = (bool)row.Cells[0].Value;                       
+                    }
+                    catch (Exception) { continue; }
+                    if (isDeletedRow)
+                    {
+                        deleteClient(sqlConnection, (int)row.Cells[1].Value);
+                    }
+                }
+                
+                MessageBox.Show("Данные успешно удалены");
+                tabControlOfDelete_SelectedIndexChanged(new object(), new EventArgs());
+            }
+        }
+
+        private void btnDeleteAccessory_Click(object sender, EventArgs e)
+        {
+            using (SqlConnection sqlConnection = new SqlConnection(connectionStr))
+            {
+                sqlConnection.Open();
+                bool isDeletedRow = false;
+                foreach (DataGridViewRow row in dataGridViewOfAccessOnDeleteAccessPage.Rows)
+                {
+                    try
+                    {
+                        isDeletedRow = (bool)row.Cells[0].Value;                        
+                    }
+                    catch (Exception) { continue; }
+                    if (isDeletedRow)
+                    {
+                        deleteAccessory(sqlConnection, (int)row.Cells[1].Value);
+                    }
+                }
+                MessageBox.Show("Данные успешно удалены");
+                tabControlOfDelete_SelectedIndexChanged(new object(), new EventArgs());
+            }
+        }
+
+        private void dataGridViewOfClientsOnDeleteClientsPage_Resize(object sender, EventArgs e)
+        {
+            btnDeleteClients.Top = dataGridViewOfClientsOnDeleteClientsPage.Bottom + 50;
+        }
+
+        private void dataGridViewOfAccessOnDeleteAccessPage_Resize(object sender, EventArgs e)
+        {
+            btnDeleteAccessory.Top = dataGridViewOfAccessOnDeleteAccessPage.Bottom + 50;
         }
     }
 }

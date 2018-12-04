@@ -64,7 +64,8 @@ CREATE TABLE Shop.Orders
 (
 	OrderId int IDENTITY(1,1) NOT NULL
 		PRIMARY KEY,
-	ClientId int NOT NULL FOREIGN KEY REFERENCES Shop.Client(ClientId),				                           	 
+	ClientId int NOT NULL FOREIGN KEY REFERENCES Shop.Client(ClientId)
+	ON DELETE CASCADE ON UPDATE CASCADE,				                           	 
 	City nvarchar(30) NOT NULL,
 	Street nvarchar(30) NOT NULL,
 	NumberOfStreet nvarchar(10) NOT NULL
@@ -77,8 +78,10 @@ CREATE TABLE Shop.CreditCard
 	FirstName nvarchar(20) NOT NULL,
 	LastName nvarchar(20) NOT NULL,
 	ExpiryDate Date NOT NULL,
-	ClientId int NOT NULL FOREIGN KEY REFERENCES Shop.Client(ClientId),
+	ClientId int NOT NULL FOREIGN KEY REFERENCES Shop.Client(ClientId)
+	ON DELETE CASCADE ON UPDATE CASCADE,
 	OrderId int NULL FOREIGN KEY REFERENCES Shop.Orders(OrderId)
+	ON DELETE SET NULL ON UPDATE CASCADE
 )
 
 --производитель товаров
@@ -128,7 +131,8 @@ CREATE TABLE Shop.StockStoreAccessory
 	StockId int NOT NULL
 		FOREIGN KEY REFERENCES Shop.StockStore(StockId),
 	AccessoryId int NOT NULL
-		FOREIGN KEY REFERENCES Shop.Accessory(AccessoryId),
+		FOREIGN KEY REFERENCES Shop.Accessory(AccessoryId)
+		ON DELETE CASCADE ON UPDATE CASCADE,
 	PRIMARY KEY(StockId, AccessoryId)
 )
 GO
@@ -168,4 +172,5 @@ GO
 ALTER TABLE Shop.Goods
 ADD CONSTRAINT FK_OrderId
 FOREIGN KEY (OrderId) REFERENCES Shop.Orders(OrderId)
+ON DELETE CASCADE ON UPDATE CASCADE
 GO

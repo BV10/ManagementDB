@@ -85,8 +85,20 @@
             this.label10 = new System.Windows.Forms.Label();
             this.textBoxOfLNameClientOnInsertOrderPage = new System.Windows.Forms.TextBox();
             this.dataGridViewOfAccessoriesOnInsertOrderPage = new System.Windows.Forms.DataGridView();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.tabPageOfUpdate = new System.Windows.Forms.TabPage();
+            this.tabControlOfUpdate = new System.Windows.Forms.TabControl();
+            this.tabPageOfUpdateClient = new System.Windows.Forms.TabPage();
+            this.btnUpdatesClients = new System.Windows.Forms.Button();
+            this.dataGridViewOfClientsOnUpdateClientPage = new System.Windows.Forms.DataGridView();
+            this.tabPageOfUpdateAccessory = new System.Windows.Forms.TabPage();
+            this.btnUpdateAccessories = new System.Windows.Forms.Button();
+            this.dataGridViewOfAccessoriesOnUpdateAccessoryPage = new System.Windows.Forms.DataGridView();
+            this.tabPageOfDelete = new System.Windows.Forms.TabPage();
+            this.tabControlOfDelete = new System.Windows.Forms.TabControl();
+            this.tabPageOfDeleteClients = new System.Windows.Forms.TabPage();
+            this.dataGridViewOfClientsOnDeleteClientsPage = new System.Windows.Forms.DataGridView();
+            this.tabPageOfDeleteAccessories = new System.Windows.Forms.TabPage();
+            this.dataGridViewOfAccessOnDeleteAccessPage = new System.Windows.Forms.DataGridView();
             this.clientBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.shopDBDataSet = new ManagementShopDB.ShopDBDataSet();
             this.clientTableAdapter = new ManagementShopDB.ShopDBDataSetTableAdapters.ClientTableAdapter();
@@ -94,6 +106,8 @@
             this.accessoryTableAdapter = new ManagementShopDB.ShopDBDataSetTableAdapters.AccessoryTableAdapter();
             this.accessoryTypeBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.accessoryTypeTableAdapter = new ManagementShopDB.ShopDBDataSetTableAdapters.AccessoryTypeTableAdapter();
+            this.btnDeleteClients = new System.Windows.Forms.Button();
+            this.btnDeleteAccessory = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.tabControl_OperationOnDb.SuspendLayout();
             this.tabPageOfSelect.SuspendLayout();
@@ -116,6 +130,18 @@
             this.groupBoxOfDataDelivery.SuspendLayout();
             this.groupBoxOfDataClient.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewOfAccessoriesOnInsertOrderPage)).BeginInit();
+            this.tabPageOfUpdate.SuspendLayout();
+            this.tabControlOfUpdate.SuspendLayout();
+            this.tabPageOfUpdateClient.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewOfClientsOnUpdateClientPage)).BeginInit();
+            this.tabPageOfUpdateAccessory.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewOfAccessoriesOnUpdateAccessoryPage)).BeginInit();
+            this.tabPageOfDelete.SuspendLayout();
+            this.tabControlOfDelete.SuspendLayout();
+            this.tabPageOfDeleteClients.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewOfClientsOnDeleteClientsPage)).BeginInit();
+            this.tabPageOfDeleteAccessories.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewOfAccessOnDeleteAccessPage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.clientBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.shopDBDataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.accessoryBindingSource)).BeginInit();
@@ -150,8 +176,8 @@
             // 
             this.tabControl_OperationOnDb.Controls.Add(this.tabPageOfSelect);
             this.tabControl_OperationOnDb.Controls.Add(this.tabPageOfInsert);
-            this.tabControl_OperationOnDb.Controls.Add(this.tabPage3);
-            this.tabControl_OperationOnDb.Controls.Add(this.tabPage4);
+            this.tabControl_OperationOnDb.Controls.Add(this.tabPageOfUpdate);
+            this.tabControl_OperationOnDb.Controls.Add(this.tabPageOfDelete);
             this.tabControl_OperationOnDb.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl_OperationOnDb.Location = new System.Drawing.Point(0, 24);
             this.tabControl_OperationOnDb.Name = "tabControl_OperationOnDb";
@@ -710,23 +736,166 @@
             this.dataGridViewOfAccessoriesOnInsertOrderPage.TabIndex = 1;
             this.dataGridViewOfAccessoriesOnInsertOrderPage.Resize += new System.EventHandler(this.dataGridViewOnInsertPageOfAccessories_Resize);
             // 
-            // tabPage3
+            // tabPageOfUpdate
             // 
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(1258, 511);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Обновление";
-            this.tabPage3.UseVisualStyleBackColor = true;
+            this.tabPageOfUpdate.Controls.Add(this.tabControlOfUpdate);
+            this.tabPageOfUpdate.Location = new System.Drawing.Point(4, 22);
+            this.tabPageOfUpdate.Name = "tabPageOfUpdate";
+            this.tabPageOfUpdate.Size = new System.Drawing.Size(1258, 511);
+            this.tabPageOfUpdate.TabIndex = 2;
+            this.tabPageOfUpdate.Text = "Обновление";
+            this.tabPageOfUpdate.UseVisualStyleBackColor = true;
             // 
-            // tabPage4
+            // tabControlOfUpdate
             // 
-            this.tabPage4.Location = new System.Drawing.Point(4, 22);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(1258, 511);
-            this.tabPage4.TabIndex = 3;
-            this.tabPage4.Text = "Удаление";
-            this.tabPage4.UseVisualStyleBackColor = true;
+            this.tabControlOfUpdate.Controls.Add(this.tabPageOfUpdateClient);
+            this.tabControlOfUpdate.Controls.Add(this.tabPageOfUpdateAccessory);
+            this.tabControlOfUpdate.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControlOfUpdate.Location = new System.Drawing.Point(0, 0);
+            this.tabControlOfUpdate.Name = "tabControlOfUpdate";
+            this.tabControlOfUpdate.SelectedIndex = 0;
+            this.tabControlOfUpdate.Size = new System.Drawing.Size(1258, 511);
+            this.tabControlOfUpdate.TabIndex = 0;
+            this.tabControlOfUpdate.SelectedIndexChanged += new System.EventHandler(this.tabControlOfUpdate_SelectedIndexChanged);
+            // 
+            // tabPageOfUpdateClient
+            // 
+            this.tabPageOfUpdateClient.AutoScroll = true;
+            this.tabPageOfUpdateClient.Controls.Add(this.btnUpdatesClients);
+            this.tabPageOfUpdateClient.Controls.Add(this.dataGridViewOfClientsOnUpdateClientPage);
+            this.tabPageOfUpdateClient.Location = new System.Drawing.Point(4, 22);
+            this.tabPageOfUpdateClient.Name = "tabPageOfUpdateClient";
+            this.tabPageOfUpdateClient.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageOfUpdateClient.Size = new System.Drawing.Size(1250, 485);
+            this.tabPageOfUpdateClient.TabIndex = 0;
+            this.tabPageOfUpdateClient.Text = "Клиенты";
+            this.tabPageOfUpdateClient.UseVisualStyleBackColor = true;
+            // 
+            // btnUpdatesClients
+            // 
+            this.btnUpdatesClients.Location = new System.Drawing.Point(6, 399);
+            this.btnUpdatesClients.Name = "btnUpdatesClients";
+            this.btnUpdatesClients.Size = new System.Drawing.Size(123, 34);
+            this.btnUpdatesClients.TabIndex = 2;
+            this.btnUpdatesClients.Text = "Сохранить изменения";
+            this.btnUpdatesClients.UseVisualStyleBackColor = true;
+            this.btnUpdatesClients.Click += new System.EventHandler(this.btnUpdatesClients_Click);
+            // 
+            // dataGridViewOfClientsOnUpdateClientPage
+            // 
+            this.dataGridViewOfClientsOnUpdateClientPage.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            this.dataGridViewOfClientsOnUpdateClientPage.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewOfClientsOnUpdateClientPage.Location = new System.Drawing.Point(6, 6);
+            this.dataGridViewOfClientsOnUpdateClientPage.Name = "dataGridViewOfClientsOnUpdateClientPage";
+            this.dataGridViewOfClientsOnUpdateClientPage.Size = new System.Drawing.Size(120, 30);
+            this.dataGridViewOfClientsOnUpdateClientPage.TabIndex = 1;
+            this.dataGridViewOfClientsOnUpdateClientPage.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewOfClientsOnUpdateClientPage_CellClick);
+            this.dataGridViewOfClientsOnUpdateClientPage.Resize += new System.EventHandler(this.dataGridViewOfClientsOnUpdateClientPage_Resize);
+            // 
+            // tabPageOfUpdateAccessory
+            // 
+            this.tabPageOfUpdateAccessory.AllowDrop = true;
+            this.tabPageOfUpdateAccessory.Controls.Add(this.btnUpdateAccessories);
+            this.tabPageOfUpdateAccessory.Controls.Add(this.dataGridViewOfAccessoriesOnUpdateAccessoryPage);
+            this.tabPageOfUpdateAccessory.Location = new System.Drawing.Point(4, 22);
+            this.tabPageOfUpdateAccessory.Name = "tabPageOfUpdateAccessory";
+            this.tabPageOfUpdateAccessory.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageOfUpdateAccessory.Size = new System.Drawing.Size(1250, 485);
+            this.tabPageOfUpdateAccessory.TabIndex = 1;
+            this.tabPageOfUpdateAccessory.Text = "Аксессуары";
+            this.tabPageOfUpdateAccessory.UseVisualStyleBackColor = true;
+            // 
+            // btnUpdateAccessories
+            // 
+            this.btnUpdateAccessories.Location = new System.Drawing.Point(6, 409);
+            this.btnUpdateAccessories.Name = "btnUpdateAccessories";
+            this.btnUpdateAccessories.Size = new System.Drawing.Size(123, 34);
+            this.btnUpdateAccessories.TabIndex = 3;
+            this.btnUpdateAccessories.Text = "Сохранить изменения";
+            this.btnUpdateAccessories.UseVisualStyleBackColor = true;
+            this.btnUpdateAccessories.Click += new System.EventHandler(this.btnUpdateAccessories_Click);
+            // 
+            // dataGridViewOfAccessoriesOnUpdateAccessoryPage
+            // 
+            this.dataGridViewOfAccessoriesOnUpdateAccessoryPage.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dataGridViewOfAccessoriesOnUpdateAccessoryPage.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.dataGridViewOfAccessoriesOnUpdateAccessoryPage.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewOfAccessoriesOnUpdateAccessoryPage.Location = new System.Drawing.Point(6, 6);
+            this.dataGridViewOfAccessoriesOnUpdateAccessoryPage.Name = "dataGridViewOfAccessoriesOnUpdateAccessoryPage";
+            this.dataGridViewOfAccessoriesOnUpdateAccessoryPage.Size = new System.Drawing.Size(120, 30);
+            this.dataGridViewOfAccessoriesOnUpdateAccessoryPage.TabIndex = 1;
+            this.dataGridViewOfAccessoriesOnUpdateAccessoryPage.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewOfAccessoriesOnUpdateAccessoryPage_CellClick);
+            this.dataGridViewOfAccessoriesOnUpdateAccessoryPage.Resize += new System.EventHandler(this.dataGridViewOfAccessoriesOnUpdateAccessoryPage_Resize);
+            // 
+            // tabPageOfDelete
+            // 
+            this.tabPageOfDelete.Controls.Add(this.tabControlOfDelete);
+            this.tabPageOfDelete.Location = new System.Drawing.Point(4, 22);
+            this.tabPageOfDelete.Name = "tabPageOfDelete";
+            this.tabPageOfDelete.Size = new System.Drawing.Size(1258, 511);
+            this.tabPageOfDelete.TabIndex = 3;
+            this.tabPageOfDelete.Text = "Удаление";
+            this.tabPageOfDelete.UseVisualStyleBackColor = true;
+            // 
+            // tabControlOfDelete
+            // 
+            this.tabControlOfDelete.Controls.Add(this.tabPageOfDeleteClients);
+            this.tabControlOfDelete.Controls.Add(this.tabPageOfDeleteAccessories);
+            this.tabControlOfDelete.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControlOfDelete.Location = new System.Drawing.Point(0, 0);
+            this.tabControlOfDelete.Name = "tabControlOfDelete";
+            this.tabControlOfDelete.SelectedIndex = 0;
+            this.tabControlOfDelete.Size = new System.Drawing.Size(1258, 511);
+            this.tabControlOfDelete.TabIndex = 0;
+            this.tabControlOfDelete.SelectedIndexChanged += new System.EventHandler(this.tabControlOfDelete_SelectedIndexChanged);
+            // 
+            // tabPageOfDeleteClients
+            // 
+            this.tabPageOfDeleteClients.AutoScroll = true;
+            this.tabPageOfDeleteClients.Controls.Add(this.btnDeleteClients);
+            this.tabPageOfDeleteClients.Controls.Add(this.dataGridViewOfClientsOnDeleteClientsPage);
+            this.tabPageOfDeleteClients.Location = new System.Drawing.Point(4, 22);
+            this.tabPageOfDeleteClients.Name = "tabPageOfDeleteClients";
+            this.tabPageOfDeleteClients.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageOfDeleteClients.Size = new System.Drawing.Size(1250, 485);
+            this.tabPageOfDeleteClients.TabIndex = 0;
+            this.tabPageOfDeleteClients.Text = "Клиенты";
+            this.tabPageOfDeleteClients.UseVisualStyleBackColor = true;
+            // 
+            // dataGridViewOfClientsOnDeleteClientsPage
+            // 
+            this.dataGridViewOfClientsOnDeleteClientsPage.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dataGridViewOfClientsOnDeleteClientsPage.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.dataGridViewOfClientsOnDeleteClientsPage.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewOfClientsOnDeleteClientsPage.Location = new System.Drawing.Point(6, 6);
+            this.dataGridViewOfClientsOnDeleteClientsPage.Name = "dataGridViewOfClientsOnDeleteClientsPage";
+            this.dataGridViewOfClientsOnDeleteClientsPage.Size = new System.Drawing.Size(120, 30);
+            this.dataGridViewOfClientsOnDeleteClientsPage.TabIndex = 2;
+            this.dataGridViewOfClientsOnDeleteClientsPage.Resize += new System.EventHandler(this.dataGridViewOfClientsOnDeleteClientsPage_Resize);
+            // 
+            // tabPageOfDeleteAccessories
+            // 
+            this.tabPageOfDeleteAccessories.AutoScroll = true;
+            this.tabPageOfDeleteAccessories.Controls.Add(this.btnDeleteAccessory);
+            this.tabPageOfDeleteAccessories.Controls.Add(this.dataGridViewOfAccessOnDeleteAccessPage);
+            this.tabPageOfDeleteAccessories.Location = new System.Drawing.Point(4, 22);
+            this.tabPageOfDeleteAccessories.Name = "tabPageOfDeleteAccessories";
+            this.tabPageOfDeleteAccessories.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageOfDeleteAccessories.Size = new System.Drawing.Size(1250, 485);
+            this.tabPageOfDeleteAccessories.TabIndex = 1;
+            this.tabPageOfDeleteAccessories.Text = "Аксессуары";
+            this.tabPageOfDeleteAccessories.UseVisualStyleBackColor = true;
+            // 
+            // dataGridViewOfAccessOnDeleteAccessPage
+            // 
+            this.dataGridViewOfAccessOnDeleteAccessPage.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dataGridViewOfAccessOnDeleteAccessPage.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.dataGridViewOfAccessOnDeleteAccessPage.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewOfAccessOnDeleteAccessPage.Location = new System.Drawing.Point(6, 6);
+            this.dataGridViewOfAccessOnDeleteAccessPage.Name = "dataGridViewOfAccessOnDeleteAccessPage";
+            this.dataGridViewOfAccessOnDeleteAccessPage.Size = new System.Drawing.Size(120, 30);
+            this.dataGridViewOfAccessOnDeleteAccessPage.TabIndex = 3;
+            this.dataGridViewOfAccessOnDeleteAccessPage.Resize += new System.EventHandler(this.dataGridViewOfAccessOnDeleteAccessPage_Resize);
             // 
             // clientBindingSource
             // 
@@ -759,6 +928,26 @@
             // accessoryTypeTableAdapter
             // 
             this.accessoryTypeTableAdapter.ClearBeforeFill = true;
+            // 
+            // btnDeleteClients
+            // 
+            this.btnDeleteClients.Location = new System.Drawing.Point(7, 62);
+            this.btnDeleteClients.Name = "btnDeleteClients";
+            this.btnDeleteClients.Size = new System.Drawing.Size(119, 33);
+            this.btnDeleteClients.TabIndex = 3;
+            this.btnDeleteClients.Text = "Удалить клиентов";
+            this.btnDeleteClients.UseVisualStyleBackColor = true;
+            this.btnDeleteClients.Click += new System.EventHandler(this.btnDeleteClients_Click);
+            // 
+            // btnDeleteAccessory
+            // 
+            this.btnDeleteAccessory.Location = new System.Drawing.Point(7, 58);
+            this.btnDeleteAccessory.Name = "btnDeleteAccessory";
+            this.btnDeleteAccessory.Size = new System.Drawing.Size(119, 33);
+            this.btnDeleteAccessory.TabIndex = 4;
+            this.btnDeleteAccessory.Text = "Удалить аксессуар";
+            this.btnDeleteAccessory.UseVisualStyleBackColor = true;
+            this.btnDeleteAccessory.Click += new System.EventHandler(this.btnDeleteAccessory_Click);
             // 
             // MainForm
             // 
@@ -799,6 +988,18 @@
             this.groupBoxOfDataClient.ResumeLayout(false);
             this.groupBoxOfDataClient.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewOfAccessoriesOnInsertOrderPage)).EndInit();
+            this.tabPageOfUpdate.ResumeLayout(false);
+            this.tabControlOfUpdate.ResumeLayout(false);
+            this.tabPageOfUpdateClient.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewOfClientsOnUpdateClientPage)).EndInit();
+            this.tabPageOfUpdateAccessory.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewOfAccessoriesOnUpdateAccessoryPage)).EndInit();
+            this.tabPageOfDelete.ResumeLayout(false);
+            this.tabControlOfDelete.ResumeLayout(false);
+            this.tabPageOfDeleteClients.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewOfClientsOnDeleteClientsPage)).EndInit();
+            this.tabPageOfDeleteAccessories.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewOfAccessOnDeleteAccessPage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.clientBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.shopDBDataSet)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.accessoryBindingSource)).EndInit();
@@ -815,8 +1016,8 @@
         private System.Windows.Forms.TabControl tabControl_OperationOnDb;
         private System.Windows.Forms.TabPage tabPageOfSelect;
         private System.Windows.Forms.TabPage tabPageOfInsert;
-        private System.Windows.Forms.TabPage tabPage3;
-        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.TabPage tabPageOfUpdate;
+        private System.Windows.Forms.TabPage tabPageOfDelete;
         private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.TabPage tabPageOfClients;
         private System.Windows.Forms.TabPage tabPageOfAccessory;
@@ -874,6 +1075,20 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.DataGridView dataGridViewOfClientsOnInsertClientPage;
         private System.Windows.Forms.DataGridView dataGridViewOfAccessoriesOnInsertAccessoryPage;
+        private System.Windows.Forms.TabControl tabControlOfUpdate;
+        private System.Windows.Forms.TabPage tabPageOfUpdateClient;
+        private System.Windows.Forms.DataGridView dataGridViewOfClientsOnUpdateClientPage;
+        private System.Windows.Forms.TabPage tabPageOfUpdateAccessory;
+        private System.Windows.Forms.DataGridView dataGridViewOfAccessoriesOnUpdateAccessoryPage;
+        private System.Windows.Forms.Button btnUpdatesClients;
+        private System.Windows.Forms.Button btnUpdateAccessories;
+        private System.Windows.Forms.TabControl tabControlOfDelete;
+        private System.Windows.Forms.TabPage tabPageOfDeleteClients;
+        private System.Windows.Forms.TabPage tabPageOfDeleteAccessories;
+        private System.Windows.Forms.DataGridView dataGridViewOfClientsOnDeleteClientsPage;
+        private System.Windows.Forms.DataGridView dataGridViewOfAccessOnDeleteAccessPage;
+        private System.Windows.Forms.Button btnDeleteClients;
+        private System.Windows.Forms.Button btnDeleteAccessory;
     }
 }
 

@@ -51,7 +51,8 @@ Shop.Client.Phone AS [Телефон клиента]
 CREATE FUNCTION Orders()
 RETURNS TABLE
 AS
-RETURN SELECT Shop.Orders.OrderId AS [Id заказа],
+RETURN 
+SELECT Shop.Orders.OrderId AS [Id заказа],
 Shop.Client.FirstName AS [Имя клиента],
 Shop.Client.LastName AS [Фамилия клиента],
 Shop.Client.Phone AS [Номер телефона],
@@ -82,5 +83,3 @@ FROM Shop.StockStore
 INNER JOIN Shop.ManagerStockStore
 ON Shop.ManagerStockStore.StockId = Shop.StockStore.StockId
 GO
-
-SELECT * FROM Shop.Producer
